@@ -1,0 +1,21 @@
+{
+    "name": "com.nhatanh.my-custom-package",
+    "version": "1.0.0",
+    "displayName": "My Custom Package",
+    "description": "This is an example package",
+    "unity": "2022.3",
+    "dependencies": {
+
+ },
+    
+   "keywords": [
+      "custom",
+      "test",
+      "private"
+    ],
+    "author": {
+      "name": "NhatAnh",
+      "email": "unity@example.com",
+      "url": "https://www.unity3d.com"
+    }
+  }
