@@ -32,13 +32,16 @@ public class CharacterAnimationController : MonoBehaviour
 
     public void AttackAim()
     {
+        
         animator.SetTrigger("Attack");
     }
 
+    //AttackAnim 1
     public void AtackAnimCallback()
     {
         Debug.Log("Atttack Anim Callback");
-        controller.canMove = true;
+        //controller.canMove = true;
+        controller.AttackCallback();
     }
 
     public void TakeDamageAnim()

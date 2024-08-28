@@ -10,15 +10,19 @@ public class PlayerController : MonoBehaviour
 
     public bool canMove;
     [SerializeField] float moveSpeed = 1;
-    int moveDir;
+    int moveInputDir;
     float lookAtDir;
 
-    [SerializeField] Transform target;
+    public Transform target;
+
+    [SerializeField] AttackMachineController attackMachineController;
 
     private void Awake()
     {
-        pickCharacterController = GetComponent<PickHeroController>();
+        //pickCharacterController = GetComponent<PickHeroController>();
         characterAnimationController = GetComponentInChildren<CharacterAnimationController>();
+
+
     }
     // Start is called before the first frame update
     void Start()
@@ -30,62 +34,78 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         MoveInput();
-        
-        characterAnimationController.MoveAnim(moveDir * lookAtDir);
 
-        if(Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Attack");
-            canMove = false ;
-            characterAnimationController.AttackAim();
-            
-        }
-
-        if(Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("Be hit");
-            characterAnimationController.TakeDamageAnim();
-        }
-
+        //Ham nay can chi nen duoc goi khi co input .                     
         RotateCharacter();
 
-        //if(Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    transform.rotation = Quaternion.Euler(0,-90,0);
-        //}
+        AttackInput();
+
+        if(attackTimer >0)
+        {
+            attackTimer -= Time.deltaTime;  
+        }
     }
 
     private void LateUpdate()
     {
+        //Cai nay phai ben animationController
+        if (characterAnimationController != null)
+        {
+            characterAnimationController.MoveAnim(moveInputDir * lookAtDir);
+        }
     }
 
     void MoveInput()
     {
-        if(!canMove) { 
-            moveDir = 0;
-            Moving(moveDir);
+        if (!canMove)
+        {
+            moveInputDir = 0;
+            Moving(moveInputDir);
             return;
         }
 
-
-        if(Input.GetKey(KeyCode.D))
+        if (playerID == 0)
         {
-            moveDir = 1;
+            if (Input.GetKey(KeyCode.D))
+            {
+                moveInputDir = 1;
 
-        }else if(Input.GetKey(KeyCode.A))
-        {
-            moveDir = -1;
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                moveInputDir = -1;
 
+            }
+            else
+            {
+                moveInputDir = 0;
+            }
         }
-        else
+
+        if (playerID == 1)
         {
-            moveDir = 0;
+            if (Input.GetKey(KeyCode.L))
+            {
+                moveInputDir = 1;
+
+            }
+            else if (Input.GetKey(KeyCode.J))
+            {
+                moveInputDir = -1;
+
+            }
+            else
+            {
+                moveInputDir = 0;
+            }
         }
 
-        Moving(moveDir);
 
-        
+        Moving(moveInputDir);
+
+
     }
 
     void Moving(int moveDir)
@@ -96,23 +116,94 @@ public class PlayerController : MonoBehaviour
 
     void RotateCharacter()
     {
-        if(target == null) { return; }
-        var tmp  = target.position.x - transform.position.x;
-        if(tmp < 0)
+        if (target == null) { return; }
+        var tmp = target.position.x - transform.position.x;
+        if (tmp < 0)
         {
             lookAtDir = -1;
-            transform.rotation = Quaternion.Euler(0, -90, 0);
         }
         else
         {
             lookAtDir = 1;
-            transform.rotation = Quaternion.Euler(0, 90, 0);
 
+        }
+        transform.rotation = Quaternion.Euler(0, 90 * lookAtDir, 0);
+
+    }
+
+    public void AttackInput()
+    {
+        if (playerID == 0)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("Attack");
+                canMove = false;
+                if (characterAnimationController != null)
+                {
+                    attackTimer = 1;
+                    AttackCambo();
+                    characterAnimationController.AttackAim();
+
+                }
+
+            }
+
+        }
+
+        if (playerID == 1)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                Debug.Log("Attack");
+                canMove = false;
+                if (characterAnimationController != null)
+                {
+                    characterAnimationController.AttackAim();
+
+                }
+
+            }
         }
     }
 
-    public  void Attack()
+    float attackTimer;
+    int attackCount;
+    void AttackCambo()
     {
+        
 
+        if (attackTimer > 0)
+        {
+            attackCount++;  
+        }
+
+        switch (attackCount)
+        {
+            case 0:
+                break;
+            case 1:
+
+                break;
+
+        }
+        
+        attackCount = 0;
+
+    }
+
+    public void AttackCallback()
+    {
+        canMove = true;
+        attackMachineController.ActiveAttackMachine();
+    }
+
+    public void TakeDamage()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("Be hit");
+            characterAnimationController.TakeDamageAnim();
+        }
     }
 }

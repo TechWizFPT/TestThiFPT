@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PickHeroScene.unity
     guid: 2847e08ad9f10544892ee3c4a2b2a84e
+  - enabled: 1
+    path: Assets/Scenes/GamePlayScene.unity
+    guid: 757aa926ebcb3324fa45a14f912f36f1
   m_configObjects: {}

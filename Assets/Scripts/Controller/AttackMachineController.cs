@@ -6,7 +6,8 @@ public class AttackMachineController : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] PlayerController caster;
-    [SerializeField] Hashtable targetTable;
+    [SerializeField] Hashtable targetTable = new Hashtable();
+
 
     [SerializeField] bool isActive;
     [SerializeField] float duration;
@@ -24,19 +25,41 @@ public class AttackMachineController : MonoBehaviour
     void Update()
     {
         if(!isActive) { return; }
+        CountDownDuration();
 
-    }
-    void Init()
-    {
-        cooldown = duration;
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (IsInLayMask(other.gameObject,targetLayerMask))
         {
+            Debug.Log("Test attack");
             AddTarget(other.gameObject);            
         }
+    }
+    private void OnDisable()
+    {
+
+        isActive = false;
+        cooldown = 0; 
+    }
+
+    void Init()
+    {
+        cooldown = duration;
+    }
+
+    void ActiveDamage()
+    {
+        
+    }
+
+    public void ActiveAttackMachine()
+    {
+        //Debug.Log("active attack Machine");
+        isActive=true;
+        cooldown = duration;
+        gameObject.SetActive(isActive);
     }
 
     bool IsInLayMask(GameObject obj,LayerMask mask)
@@ -45,13 +68,16 @@ public class AttackMachineController : MonoBehaviour
         return (mask & (1<< layer)) != 0;
     }
 
+
     void AddTarget(GameObject newTarget)
     {
-        var tmp = newTarget.GetComponent<PlayerController>();
+        
+        var tmp = newTarget.GetComponentInParent<PlayerController>();
         if (tmp != null)
         {
             if (!targetTable.ContainsKey(tmp))
             {
+                Debug.Log("add + " + tmp.playerID);
                 targetTable.Add(tmp, attackDelay);
 
             }
@@ -62,14 +88,15 @@ public class AttackMachineController : MonoBehaviour
     {
         if(cooldown > 0)
         {
-            cooldown -= Time.deltaTime; 
+            //Debug.Log("countDown");
+            cooldown -= Time.deltaTime;
+        }
+        else
+        {
+            cooldown = duration;
+            isActive = false;
+            gameObject.SetActive(isActive);
         }
     }
 
-    private void OnDisable()
-    {
-
-        isActive = false;
-        cooldown = 0; 
-    }
 }
