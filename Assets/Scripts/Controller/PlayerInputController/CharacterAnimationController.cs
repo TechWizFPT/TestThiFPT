@@ -38,7 +38,8 @@ public class CharacterAnimationController : MonoBehaviour
     public void AtackAnimCallback()
     {
         Debug.Log("Atttack Anim Callback");
-        controller.canMove = true;
+        //controller.canMove = true;
+        controller.AttackCallback();
     }
 
     public void TakeDamageAnim()
