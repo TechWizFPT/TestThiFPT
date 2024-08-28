@@ -16,17 +16,16 @@ public class CharacterPanel : MonoBehaviour
     bool player2Seleted;
 
 
-    Button button;
+    [SerializeField] ButtonCustom buttonSelect;
 
     private void Awake()
     {
-        button = GetComponent<Button>();
         //characterImage = GetComponent<Image>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        Init();
+        characterImage.sprite = characterData.characterImg;
     }
 
     // Update is called once per frame
@@ -38,7 +37,7 @@ public class CharacterPanel : MonoBehaviour
     void Init()
     {
         //characterData = _characterData;
-        characterImage.sprite = characterData.characterImg;
+        
     }
 
     public void PickHero()

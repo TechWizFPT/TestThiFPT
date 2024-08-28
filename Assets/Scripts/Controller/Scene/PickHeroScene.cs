@@ -20,6 +20,7 @@ public class PickHeroScene : MonoBehaviour
     //[SerializeField] public Action<int,int,int> seletedCharacterListener;
 
     [SerializeField] GameObject startBtnLock;
+    [SerializeField] ButtonCustom buttonStartGame;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +36,8 @@ public class PickHeroScene : MonoBehaviour
 
     void Init()
     {
-        for(int i = 0; i < 2; i++)
+        buttonStartGame.canClick = false;
+        for (int i = 0; i < 2; i++)
         {
             var newPlayer = Instantiate(playerControllerPrefab);
             newPlayer.playerID = i;
@@ -81,10 +83,14 @@ public class PickHeroScene : MonoBehaviour
         }
 
         startBtnLock.SetActive(false);
-
+        buttonStartGame.canClick = true;
 
         Debug.Log("Game Ready");
 
 
+    }
+    public void StartGame()
+    {
+        Scenes.Instance.ChangeScene(SceneName.GamePlayScene);
     }
 }
