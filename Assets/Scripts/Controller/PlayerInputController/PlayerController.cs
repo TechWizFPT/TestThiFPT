@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        pickCharacterController = GetComponent<PickHeroController>();
+        //pickCharacterController = GetComponent<PickHeroController>();
         characterAnimationController = GetComponentInChildren<CharacterAnimationController>();
 
 
@@ -42,6 +42,10 @@ public class PlayerController : MonoBehaviour
 
         AttackInput();
 
+        if(attackTimer >0)
+        {
+            attackTimer -= Time.deltaTime;  
+        }
     }
 
     private void LateUpdate()
@@ -62,7 +66,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(playerID == 0)
+        if (playerID == 0)
         {
             if (Input.GetKey(KeyCode.D))
             {
@@ -80,7 +84,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(playerID == 1)
+        if (playerID == 1)
         {
             if (Input.GetKey(KeyCode.L))
             {
@@ -97,7 +101,7 @@ public class PlayerController : MonoBehaviour
                 moveInputDir = 0;
             }
         }
-        
+
 
         Moving(moveInputDir);
 
@@ -137,12 +141,14 @@ public class PlayerController : MonoBehaviour
                 canMove = false;
                 if (characterAnimationController != null)
                 {
+                    attackTimer = 1;
+                    AttackCambo();
                     characterAnimationController.AttackAim();
 
                 }
 
             }
-            
+
         }
 
         if (playerID == 1)
@@ -159,6 +165,31 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+    }
+
+    float attackTimer;
+    int attackCount;
+    void AttackCambo()
+    {
+        
+
+        if (attackTimer > 0)
+        {
+            attackCount++;  
+        }
+
+        switch (attackCount)
+        {
+            case 0:
+                break;
+            case 1:
+
+                break;
+
+        }
+        
+        attackCount = 0;
+
     }
 
     public void AttackCallback()

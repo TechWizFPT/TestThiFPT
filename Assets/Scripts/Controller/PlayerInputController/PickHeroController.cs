@@ -6,15 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class PickHeroController : MonoBehaviour
 {
+
     public PlayerController playerController;
     public PickHeroScene pickHeroScene;
     bool _isReady;
     public bool isReady { get { return _isReady; } }
 
     [Space]
-    [SerializeField] CharacterSlot characterSlotPrefab;
+    public CharacterSlot characterSlotPrefab;
 
-    public List<CharacterSlot> characterSlots;
+    public List<CharacterSlot> characterSlots = new List<CharacterSlot>();
 
     [SerializeField] int currentSlotIndex;
 
@@ -22,14 +23,13 @@ public class PickHeroController : MonoBehaviour
 
     [SerializeField] int seletedCharacterIndex;
 
-
-
     //[Space]
     //public List<CharacterData> pickedCharacterList;
 
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        playerController.pickCharacterController = this;
     }
     // Start is called before the first frame update
     void Start()
@@ -56,7 +56,7 @@ public class PickHeroController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightShift))
         {
             Debug.Log("Test");
-            if(playerController.playerID == 1)
+            if (playerController.playerID == 1)
             {
                 SelectedCharacter();
             }
@@ -76,6 +76,12 @@ public class PickHeroController : MonoBehaviour
     public void GetTeamList(GameObject container)
     {
         characterSlots.Clear();
+
+        //if (characterSlots.Count > 0)
+        //{
+        //    characterSlots.Clear();
+
+        //}
 
         for (int i = 0; i < 2; i++)
         {

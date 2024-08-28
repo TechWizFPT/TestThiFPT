@@ -1,13 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PickHeroScene : MonoBehaviour
 {
     [SerializeField] PlayerController playerControllerPrefab;
     [SerializeField] List<PlayerController> playerControllers;
-
+    //[SerializeField] List<PickHeroController> pickHeroControllers;
+    
+    [Space]
+    public CharacterSlot characterSlotPrefab;
     [SerializeField] GameObject [] teamContainer;
 
     [Space]
@@ -20,7 +24,8 @@ public class PickHeroScene : MonoBehaviour
     //[SerializeField] public Action<int,int,int> seletedCharacterListener;
 
     [SerializeField] GameObject startBtnLock;
-    [SerializeField] ButtonCustom buttonStartGame;
+    
+    //[SerializeField] ButtonCustom buttonStartGame;
 
     // Start is called before the first frame update
     void Start()
@@ -36,18 +41,30 @@ public class PickHeroScene : MonoBehaviour
 
     void Init()
     {
-        buttonStartGame.canClick = false;
+        //Add Player
+        //buttonStartGame.canClick = false;
         for (int i = 0; i < 2; i++)
         {
             var newPlayer = Instantiate(playerControllerPrefab);
-            newPlayer.playerID = i;
-            newPlayer.GetComponent<PickHeroController>().GetTeamList(teamContainer[i]);
-            newPlayer.GetComponent<PickHeroController>().pickHeroScene = this;
-
             playerControllers.Add(newPlayer);
+
+            newPlayer.playerID = i;
+            //GameObject newPickCharacterController = new GameObject("Player " + newPlayer.playerID);
+            var newPickCharacterController = newPlayer.AddComponent<PickHeroController>();
+            newPickCharacterController.characterSlotPrefab = characterSlotPrefab;
+            newPickCharacterController.playerController = newPlayer;
+
+            newPickCharacterController.pickHeroScene = this;
+            newPickCharacterController.GetTeamList(teamContainer[i]);
+
         }
 
         GetCharacterList();
+    }
+
+    void AddPlayer()
+    {
+
     }
 
     void GetCharacterList()
@@ -83,12 +100,12 @@ public class PickHeroScene : MonoBehaviour
         }
 
         startBtnLock.SetActive(false);
-        buttonStartGame.canClick = true;
+        //buttonStartGame.canClick = true;
 
         Debug.Log("Game Ready");
 
-
     }
+
     public void StartGame()
     {
         Scenes.Instance.ChangeScene(SceneName.GamePlayScene);

@@ -8,6 +8,7 @@ public class AttackMachineController : MonoBehaviour
     [SerializeField] PlayerController caster;
     [SerializeField] Hashtable targetTable = new Hashtable();
 
+
     [SerializeField] bool isActive;
     [SerializeField] float duration;
     [SerializeField] float cooldown;
@@ -46,6 +47,11 @@ public class AttackMachineController : MonoBehaviour
     void Init()
     {
         cooldown = duration;
+    }
+
+    void ActiveDamage()
+    {
+        
     }
 
     public void ActiveAttackMachine()
