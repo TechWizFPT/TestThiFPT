@@ -25,7 +25,7 @@ public class GameSceneController : MonoBehaviour
         playerControllers[0].target = playerControllers[1].transform;
         playerControllers[1].target = playerControllers[0].transform;
 
-
+        FindObjectOfType<CameraController>().Init();
 
     }
 
