@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PickHeroScene : MonoBehaviour
 {
@@ -24,7 +25,8 @@ public class PickHeroScene : MonoBehaviour
     //[SerializeField] public Action<int,int,int> seletedCharacterListener;
 
     [SerializeField] GameObject startBtnLock;
-    
+
+    [SerializeField] Button startBtn;
     //[SerializeField] ButtonCustom buttonStartGame;
 
     // Start is called before the first frame update
@@ -39,8 +41,15 @@ public class PickHeroScene : MonoBehaviour
         
     }
 
+    void StartGameTest()
+    {
+        Debug.Log("Test");
+    }
+
     void Init()
     {
+        startBtn.enabled = false;
+        startBtn.onClick.AddListener(StartGameTest);
         //Add Player
         //buttonStartGame.canClick = false;
         for (int i = 0; i < 2; i++)
@@ -100,6 +109,7 @@ public class PickHeroScene : MonoBehaviour
         }
 
         startBtnLock.SetActive(false);
+        startBtn.enabled = true;
         //buttonStartGame.canClick = true;
 
         Debug.Log("Game Ready");

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public int playerID;
+
     public PickHeroController pickCharacterController;
     [SerializeField] CharacterAnimationController characterAnimationController;
 
@@ -16,6 +17,10 @@ public class PlayerController : MonoBehaviour
     public Transform target;
 
     [SerializeField] AttackMachineController attackMachineController;
+
+    [Space]
+    [SerializeField] float maxHp;
+    [SerializeField] float currentHp;
 
     private void Awake()
     {
@@ -29,6 +34,8 @@ public class PlayerController : MonoBehaviour
     {
         moveSpeed = 1.5f;
         canMove = true;
+
+        currentHp = maxHp;
     }
 
     // Update is called once per frame
@@ -55,6 +62,11 @@ public class PlayerController : MonoBehaviour
         {
             characterAnimationController.MoveAnim(moveInputDir * lookAtDir);
         }
+    }
+
+    void Init()
+    {
+
     }
 
     void MoveInput()
@@ -170,9 +182,7 @@ public class PlayerController : MonoBehaviour
     float attackTimer;
     int attackCount;
     void AttackCambo()
-    {
-        
-
+    {        
         if (attackTimer > 0)
         {
             attackCount++;  
@@ -198,12 +208,24 @@ public class PlayerController : MonoBehaviour
         attackMachineController.ActiveAttackMachine();
     }
 
-    public void TakeDamage()
+    public void Jump()
     {
-        if (Input.GetMouseButtonDown(1))
+
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("Take " + " Damage");
+        currentHp -= damage;    
+        if(currentHp < 0)
         {
-            Debug.Log("Be hit");
-            characterAnimationController.TakeDamageAnim();
+            Dead();
         }
+        characterAnimationController.TakeDamageAnim();
+    }
+
+    void Dead()
+    {
+        Debug.Log("PlayerID:  " + playerID + " Dead"); 
     }
 }

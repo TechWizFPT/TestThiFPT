@@ -33,7 +33,7 @@ public class AttackMachineController : MonoBehaviour
     {
         if (IsInLayMask(other.gameObject,targetLayerMask))
         {
-            Debug.Log("Test attack");
+            //Debug.Log("Test attack");
             AddTarget(other.gameObject);            
         }
     }
@@ -46,6 +46,7 @@ public class AttackMachineController : MonoBehaviour
 
     void Init()
     {
+
         cooldown = duration;
     }
 
@@ -70,8 +71,7 @@ public class AttackMachineController : MonoBehaviour
 
 
     void AddTarget(GameObject newTarget)
-    {
-        
+    {        
         var tmp = newTarget.GetComponentInParent<PlayerController>();
         if (tmp != null)
         {
@@ -79,9 +79,14 @@ public class AttackMachineController : MonoBehaviour
             {
                 Debug.Log("add + " + tmp.playerID);
                 targetTable.Add(tmp, attackDelay);
-
+                DealDamage(tmp);
             }
         }
+    }
+
+    void DealDamage(PlayerController target)
+    {
+        target.TakeDamage(10);
     }
 
     void CountDownDuration()
@@ -96,6 +101,7 @@ public class AttackMachineController : MonoBehaviour
             cooldown = duration;
             isActive = false;
             gameObject.SetActive(isActive);
+            targetTable.Clear();
         }
     }
 
