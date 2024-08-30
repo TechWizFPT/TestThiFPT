@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackMachineController : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] PlayerController caster;
+    [SerializeField] MyCharacterController caster;
     [SerializeField] Hashtable targetTable = new Hashtable();
 
 
@@ -72,19 +72,19 @@ public class AttackMachineController : MonoBehaviour
 
     void AddTarget(GameObject newTarget)
     {        
-        var tmp = newTarget.GetComponentInParent<PlayerController>();
+        var tmp = newTarget.GetComponentInParent<MyCharacterController>();
         if (tmp != null)
         {
             if (!targetTable.ContainsKey(tmp))
             {
-                Debug.Log("add + " + tmp.playerID);
+                Debug.Log("add + " + tmp.playerManager.playerID);
                 targetTable.Add(tmp, attackDelay);
                 DealDamage(tmp);
             }
         }
     }
 
-    void DealDamage(PlayerController target)
+    void DealDamage(MyCharacterController target)
     {
         target.TakeDamage(10);
     }

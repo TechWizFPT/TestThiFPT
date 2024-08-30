@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
+//[RequireComponent(typeof(MyCharacterController))]
 public class PickHeroController : MonoBehaviour
 {
-
-    public PlayerController playerController;
-    public PickHeroScene pickHeroScene;
+    public PlayerManager playerManager;
+    public PickHeroSceneController pickHeroScene;
     bool _isReady;
     public bool isReady { get { return _isReady; } }
 
@@ -28,8 +27,8 @@ public class PickHeroController : MonoBehaviour
 
     private void Awake()
     {
-        playerController = GetComponent<PlayerController>();
-        playerController.pickCharacterController = this;
+        //playerManager = GetComponent<MyCharacterController>();
+        //playerManager.pickCharacterController = this;
     }
     // Start is called before the first frame update
     void Start()
@@ -46,17 +45,17 @@ public class PickHeroController : MonoBehaviour
         //Seleted Character
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (playerController.playerID == 0)
+            if (playerManager.playerID == 0)
             {
                 SelectedCharacter();
 
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            Debug.Log("Test");
-            if (playerController.playerID == 1)
+            //Debug.Log("Test");
+            if (playerManager.playerID == 1)
             {
                 SelectedCharacter();
             }
@@ -69,7 +68,7 @@ public class PickHeroController : MonoBehaviour
         characterSlots[currentSlotIndex].Seleted();
 
         seletedCharacterIndex = 0;
-        pickHeroScene.CharacterPanelSeleted(0, seletedCharacterIndex, playerController.playerID);
+        pickHeroScene.CharacterPanelSeleted(0, seletedCharacterIndex, playerManager.playerID);
 
 
     }
@@ -93,7 +92,7 @@ public class PickHeroController : MonoBehaviour
 
     void ChangePickSlot()
     {
-        if (playerController.playerID == 0)
+        if (playerManager.playerID == 0)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -112,7 +111,7 @@ public class PickHeroController : MonoBehaviour
             }
         }
 
-        if (playerController.playerID == 1)
+        if (playerManager.playerID == 1)
         {
             if (Input.GetKeyDown(KeyCode.U))
             {
@@ -135,7 +134,7 @@ public class PickHeroController : MonoBehaviour
 
     void ChangeCharacterSelectedIndex()
     {
-        if (playerController.playerID == 0)
+        if (playerManager.playerID == 0)
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -144,7 +143,7 @@ public class PickHeroController : MonoBehaviour
                 int tmp = seletedCharacterIndex;
                 seletedCharacterIndex = seletedCharacterIndex - 1 >= 0 ?
                     seletedCharacterIndex - 1 : pickHeroScene.characterPanels.Count - 1;
-                pickHeroScene.CharacterPanelSeleted(tmp, seletedCharacterIndex, playerController.playerID);
+                pickHeroScene.CharacterPanelSeleted(tmp, seletedCharacterIndex, playerManager.playerID);
 
             }
 
@@ -153,12 +152,12 @@ public class PickHeroController : MonoBehaviour
                 int tmp = seletedCharacterIndex;
                 seletedCharacterIndex = seletedCharacterIndex + 1 < pickHeroScene.characterPanels.Count ?
                     seletedCharacterIndex + 1 : 0;
-                pickHeroScene.CharacterPanelSeleted(tmp, seletedCharacterIndex, playerController.playerID);
+                pickHeroScene.CharacterPanelSeleted(tmp, seletedCharacterIndex, playerManager.playerID);
 
             }
         }
 
-        if (playerController.playerID == 1)
+        if (playerManager.playerID == 1)
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
@@ -167,7 +166,7 @@ public class PickHeroController : MonoBehaviour
                 int tmp = seletedCharacterIndex;
                 seletedCharacterIndex = seletedCharacterIndex - 1 >= 0 ?
                     seletedCharacterIndex - 1 : pickHeroScene.characterPanels.Count - 1;
-                pickHeroScene.CharacterPanelSeleted(tmp, seletedCharacterIndex, playerController.playerID);
+                pickHeroScene.CharacterPanelSeleted(tmp, seletedCharacterIndex, playerManager.playerID);
 
             }
 
@@ -176,7 +175,7 @@ public class PickHeroController : MonoBehaviour
                 int tmp = seletedCharacterIndex;
                 seletedCharacterIndex = seletedCharacterIndex + 1 < pickHeroScene.characterPanels.Count ?
                     seletedCharacterIndex + 1 : 0;
-                pickHeroScene.CharacterPanelSeleted(tmp, seletedCharacterIndex, playerController.playerID);
+                pickHeroScene.CharacterPanelSeleted(tmp, seletedCharacterIndex, playerManager.playerID);
 
             }
         }
@@ -186,8 +185,21 @@ public class PickHeroController : MonoBehaviour
     void SelectedCharacter()
     {
         Debug.Log("Pick Character");
+        //Update UI
         characterSlots[currentSlotIndex].AddCharacter(pickHeroScene.characterPanels[seletedCharacterIndex].characterData);
+       
+        //Add CharacterData to team list
+        if (playerManager.characterDatas.Count > currentSlotIndex)
+        {
+            playerManager.characterDatas[currentSlotIndex] = characterSlots[currentSlotIndex].characterData;
+        }
+        else
+        {
+            playerManager.characterDatas.Add(characterSlots[currentSlotIndex].characterData);
+        }
 
+
+        //Check full team 
         if (characterSlots[0].characterData != null && characterSlots[1].characterData)
         {
             Debug.Log("Player ready");
@@ -195,5 +207,10 @@ public class PickHeroController : MonoBehaviour
         }
 
         pickHeroScene.PlayerPickCharacter();
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(this);
     }
 }

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class MyCharacterController : MonoBehaviour
 {
-    public int playerID;
-
-    public PickHeroController pickCharacterController;
+    //public int playerID;
+    public PlayerManager playerManager;
+    //public PickHeroController pickCharacterController;
     [SerializeField] CharacterAnimationController characterAnimationController;
 
     public bool canMove;
@@ -36,6 +36,12 @@ public class PlayerController : MonoBehaviour
         canMove = true;
 
         currentHp = maxHp;
+
+        //if (playerManager == null)
+        //{
+        //    playerManager = gameObject.AddComponent<PlayerManager>();
+        //}
+
     }
 
     // Update is called once per frame
@@ -49,9 +55,9 @@ public class PlayerController : MonoBehaviour
 
         AttackInput();
 
-        if(attackTimer >0)
+        if (attackTimer > 0)
         {
-            attackTimer -= Time.deltaTime;  
+            attackTimer -= Time.deltaTime;
         }
     }
 
@@ -71,6 +77,7 @@ public class PlayerController : MonoBehaviour
 
     void MoveInput()
     {
+
         if (!canMove)
         {
             moveInputDir = 0;
@@ -78,7 +85,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (playerID == 0)
+        if (playerManager.playerID == 0)
         {
             if (Input.GetKey(KeyCode.D))
             {
@@ -96,7 +103,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (playerID == 1)
+        if (playerManager.playerID == 1)
         {
             if (Input.GetKey(KeyCode.L))
             {
@@ -145,7 +152,7 @@ public class PlayerController : MonoBehaviour
 
     public void AttackInput()
     {
-        if (playerID == 0)
+        if (playerManager.playerID == 0)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -163,7 +170,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (playerID == 1)
+        if (playerManager.playerID == 1)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -182,10 +189,10 @@ public class PlayerController : MonoBehaviour
     float attackTimer;
     int attackCount;
     void AttackCambo()
-    {        
+    {
         if (attackTimer > 0)
         {
-            attackCount++;  
+            attackCount++;
         }
 
         switch (attackCount)
@@ -197,7 +204,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
         }
-        
+
         attackCount = 0;
 
     }
@@ -216,8 +223,8 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         Debug.Log("Take " + " Damage");
-        currentHp -= damage;    
-        if(currentHp < 0)
+        currentHp -= damage;
+        if (currentHp < 0)
         {
             Dead();
         }
@@ -226,6 +233,6 @@ public class PlayerController : MonoBehaviour
 
     void Dead()
     {
-        Debug.Log("PlayerID:  " + playerID + " Dead"); 
+        Debug.Log("PlayerID:  " + playerManager.playerID + " Dead");
     }
 }
