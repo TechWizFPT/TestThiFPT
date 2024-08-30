@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private Transform[] playerTransforms;
-    //public PlayerController player1;
-    //public PlayerController player2;
-    public Camera camera;
+    public GameSceneController gameSceneController;
+    [SerializeField] Transform[] playerTransforms;
+
+
+    public Camera myCamera;
     public float yOffset = 1.5f;
     public float minDistance = 3.0f;
 
@@ -15,7 +16,9 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        camera = FindObjectOfType<Camera>();
+        myCamera = FindObjectOfType<Camera>();
+        
+     
     }
     void Start()
     {
@@ -29,11 +32,22 @@ public class CameraController : MonoBehaviour
         MultiplayersCameraMovement();
     }
 
+    public void Init()
+    {
+        //MyCharacterController[] allPlayers = GameObject.FindObjectsOfType<MyCharacterController>();
+        playerTransforms = new Transform[gameSceneController.playerControllers.Count];
+        for (int i = 0; i < gameSceneController.playerControllers.Count; i++)
+        {
+            playerTransforms[i] = gameSceneController.playerControllers[i].transform;
+        }
+    }
     void MultiplayersCameraMovement()
     {
+        if(myCamera ==null) { myCamera = Camera.main;  }
+        if (!gameSceneController.startGame) { return; }
         if (playerTransforms.Length == 0)
         {
-            Debug.Log("Cant find player for camera movement");
+            Debug.Log("Cant find player for myCamera movement");
             return;
         }
 
@@ -62,16 +76,7 @@ public class CameraController : MonoBehaviour
         if (distance < minDistance)
             distance = minDistance;
 
-        camera.transform.position = new Vector3(xMiddle, yMiddle + yOffset, -distance);
+        myCamera.transform.position = new Vector3(xMiddle, yMiddle + yOffset, -distance);
 
-    }
-    public void Init()
-    {
-        PlayerController[] allPlayers = GameObject.FindObjectsOfType<PlayerController>();
-        playerTransforms = new Transform[allPlayers.Length];
-        for (int i = 0; i < allPlayers.Length; i++)
-        {
-            playerTransforms[i] = allPlayers[i].transform;
-        }
     }
 }

@@ -104,7 +104,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2761606950777852766}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -384,9 +384,9 @@ GameObject:
   m_Component:
   - component: {fileID: 607604934002066906}
   - component: {fileID: 6513639321775720158}
-  - component: {fileID: 1633045136142211719}
+  - component: {fileID: 4785223337643138206}
   m_Layer: 6
-  m_Name: Vinh 1
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -433,11 +433,11 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1633045136142211719
+--- !u!114 &4785223337643138206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -446,16 +446,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8479136416586336902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f82d31e7f4c38864abc200963d450cf3, type: 3}
+  m_Script: {fileID: 11500000, guid: d27b54c9b46defe42bd11900c7972681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 0
-  pickCharacterController: {fileID: 0}
+  playerManager: {fileID: 0}
   characterAnimationController: {fileID: 0}
   canMove: 0
-  moveSpeed: 2
+  moveSpeed: 1
   target: {fileID: 0}
   attackMachineController: {fileID: 74163750573670591}
+  maxHp: 0
+  currentHp: 0
 --- !u!1001 &6826428981292034370
 PrefabInstance:
   m_ObjectHideFlags: 0

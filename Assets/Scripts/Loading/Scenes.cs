@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Scenes : Singleton<Scenes>
 {
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         DataGameSave.Init();
     }
     public void ChangeScene(SceneName sceneName)
@@ -18,6 +19,7 @@ public class Scenes : Singleton<Scenes>
 }
 public enum SceneName
 {
+    SystemScene,
     StartScene,
     PickHeroScene,
     GamePlayScene

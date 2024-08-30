@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class CharacterAnimationController : MonoBehaviour
 {
-    [SerializeField] PlayerController controller;
+    [SerializeField] MyCharacterController controller;
     [SerializeField] Animator animator;
     private void Awake()
     {
-        controller = GetComponentInParent<PlayerController>();  
+        controller = GetComponentInParent<MyCharacterController>();  
         animator = GetComponent<Animator>();    
     }
     // Start is called before the first frame update
