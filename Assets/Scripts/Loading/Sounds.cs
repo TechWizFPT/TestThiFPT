@@ -5,9 +5,9 @@ using UnityEngine;
 public class Sounds : Singleton<Sounds>
 {
     [SerializeField] AudioSource audioSource;
-    void Start()
+    protected override void Start()
     {
-        
+        base.Start();
     }
 
     public void PlaySound(AudioClip clip)

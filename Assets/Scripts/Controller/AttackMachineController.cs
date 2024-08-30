@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackMachineController : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] PlayerController caster;
+    [SerializeField] MyCharacterController caster;
     [SerializeField] Hashtable targetTable = new Hashtable();
 
 
@@ -18,7 +18,7 @@ public class AttackMachineController : MonoBehaviour
 
     void Start()
     {
-        
+        caster = GetComponentInParent<MyCharacterController>(); 
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class AttackMachineController : MonoBehaviour
     {
         if (IsInLayMask(other.gameObject,targetLayerMask))
         {
-            Debug.Log("Test attack");
+            //Debug.Log("Test attack");
             AddTarget(other.gameObject);            
         }
     }
@@ -46,6 +46,7 @@ public class AttackMachineController : MonoBehaviour
 
     void Init()
     {
+
         cooldown = duration;
     }
 
@@ -60,6 +61,7 @@ public class AttackMachineController : MonoBehaviour
         isActive=true;
         cooldown = duration;
         gameObject.SetActive(isActive);
+        caster.punchVFX.Play();
     }
 
     bool IsInLayMask(GameObject obj,LayerMask mask)
@@ -70,18 +72,22 @@ public class AttackMachineController : MonoBehaviour
 
 
     void AddTarget(GameObject newTarget)
-    {
-        
-        var tmp = newTarget.GetComponentInParent<PlayerController>();
+    {        
+        var tmp = newTarget.GetComponentInParent<MyCharacterController>();
         if (tmp != null)
         {
             if (!targetTable.ContainsKey(tmp))
             {
-                Debug.Log("add + " + tmp.playerID);
-                targetTable.Add(tmp, attackDelay);
-
+                Debug.Log("add + " + tmp.playerManager.playerID);
+                targetTable.Add(tmp, attackDelay);                
+                DealDamage(tmp);
             }
         }
+    }
+
+    void DealDamage(MyCharacterController target)
+    {
+        target.TakeDamage(10);
     }
 
     void CountDownDuration()
@@ -96,6 +102,7 @@ public class AttackMachineController : MonoBehaviour
             cooldown = duration;
             isActive = false;
             gameObject.SetActive(isActive);
+            targetTable.Clear();
         }
     }
 
