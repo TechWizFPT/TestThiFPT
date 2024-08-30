@@ -8,7 +8,8 @@ public class MyCharacterController : MonoBehaviour
     public PlayerManager playerManager;
     //public PickHeroController pickCharacterController;
     [SerializeField] CharacterAnimationController characterAnimationController;
-
+    public ParticleSystem punchVFX;
+    public ParticleSystem bloodVFX;
     public bool canMove;
     [SerializeField] float moveSpeed = 1;
     int moveInputDir;
@@ -26,8 +27,7 @@ public class MyCharacterController : MonoBehaviour
     {
         //pickCharacterController = GetComponent<PickHeroController>();
         characterAnimationController = GetComponentInChildren<CharacterAnimationController>();
-
-
+       
     }
     // Start is called before the first frame update
     void Start()
@@ -224,6 +224,7 @@ public class MyCharacterController : MonoBehaviour
     {
         Debug.Log("Take " + " Damage");
         currentHp -= damage;
+        bloodVFX.Play();
         if (currentHp < 0)
         {
             Dead();

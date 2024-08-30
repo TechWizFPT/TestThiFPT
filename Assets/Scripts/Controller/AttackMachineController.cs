@@ -18,7 +18,7 @@ public class AttackMachineController : MonoBehaviour
 
     void Start()
     {
-        
+        caster = GetComponentInParent<MyCharacterController>(); 
     }
 
     // Update is called once per frame
@@ -61,6 +61,7 @@ public class AttackMachineController : MonoBehaviour
         isActive=true;
         cooldown = duration;
         gameObject.SetActive(isActive);
+        caster.punchVFX.Play();
     }
 
     bool IsInLayMask(GameObject obj,LayerMask mask)
@@ -78,7 +79,7 @@ public class AttackMachineController : MonoBehaviour
             if (!targetTable.ContainsKey(tmp))
             {
                 Debug.Log("add + " + tmp.playerManager.playerID);
-                targetTable.Add(tmp, attackDelay);
+                targetTable.Add(tmp, attackDelay);                
                 DealDamage(tmp);
             }
         }
