@@ -22,8 +22,7 @@ public class CameraController : MonoBehaviour
     }
     void Start()
     {
-        
-        
+        PopupPause.Show();
     }
 
     // Update is called once per frame

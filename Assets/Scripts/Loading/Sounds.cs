@@ -5,6 +5,7 @@ using UnityEngine;
 public class Sounds : Singleton<Sounds>
 {
     [SerializeField] AudioSource audioSource;
+    public AudioClip SFX_btn_click;
     protected override void Start()
     {
         base.Start();
