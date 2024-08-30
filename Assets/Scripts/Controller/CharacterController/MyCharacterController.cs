@@ -35,6 +35,7 @@ public class MyCharacterController : MonoBehaviour
         moveSpeed = 1.5f;
         canMove = true;
 
+        maxHp = 100;
         currentHp = maxHp;
 
         //if (playerManager == null)
