@@ -58,8 +58,8 @@ public class GameSceneController : MySceneController
         for (int i = 0; i < GameManager.Instance.playerManagers.Count; i++)
         {
             //Quaternion rotation = Quaternion.Euler(0, 90, 0);
-            //var tmp = Instantiate(playerControllerPrefab, spawnLocation[i].position, Quaternion.identity);
-            var tmp = Instantiate(playerControllerPrefab);
+            var tmp = Instantiate(playerControllerPrefab, spawnLocation[i].position, Quaternion.identity);
+            //var tmp = Instantiate(playerControllerPrefab);
 
 
             playerControllers.Add(tmp);

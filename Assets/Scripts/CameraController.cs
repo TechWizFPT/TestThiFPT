@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform[] playerTransforms;
 
 
-    public Camera camera;
+    public Camera myCamera;
     public float yOffset = 1.5f;
     public float minDistance = 3.0f;
 
@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        camera = FindObjectOfType<Camera>();
+        myCamera = FindObjectOfType<Camera>();
         
      
     }
@@ -43,11 +43,11 @@ public class CameraController : MonoBehaviour
     }
     void MultiplayersCameraMovement()
     {
-        if(camera ==null) { camera = Camera.main;  }
+        if(myCamera ==null) { myCamera = Camera.main;  }
         if (!gameSceneController.startGame) { return; }
         if (playerTransforms.Length == 0)
         {
-            Debug.Log("Cant find player for camera movement");
+            Debug.Log("Cant find player for myCamera movement");
             return;
         }
 
@@ -76,7 +76,7 @@ public class CameraController : MonoBehaviour
         if (distance < minDistance)
             distance = minDistance;
 
-        camera.transform.position = new Vector3(xMiddle, yMiddle + yOffset, -distance);
+        myCamera.transform.position = new Vector3(xMiddle, yMiddle + yOffset, -distance);
 
     }
 }
