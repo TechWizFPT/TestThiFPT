@@ -27,6 +27,7 @@ public class ButtonCustom : MonoBehaviour ,IPointerDownHandler , IPointerUpHandl
                 transform.DOScale(scaleStart * 1.1f, 0.5f);
             }
             enter = true;
+
             Sounds.Instance.PlaySound(Sounds.Instance.SFX_btn_click);
         }
     }

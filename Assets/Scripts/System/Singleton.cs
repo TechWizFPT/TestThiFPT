@@ -15,10 +15,15 @@ public class Singleton<T> : MonoBehaviour where T : Component
         {
             if (_instance == null)
             {
+                //Scene activeScene = SceneManager.GetActiveScene();
+                //SceneManager.SetActiveScene(SceneManager.GetSceneByName("SystemScene"));
                 
                 GameObject obj = new GameObject();
                 obj.name = typeof(T).Name;
                 _instance = obj.AddComponent<T>();
+
+                //SceneManager.SetActiveScene(activeScene);
+
             }
 
             return _instance;
@@ -66,12 +71,12 @@ public class Singleton<T> : MonoBehaviour where T : Component
         {
             MySceneManager.Instance.LoadSystemSceneAsync(SceneTeamSceneCallback);
         }
-        //else
-        //{
-        //    Scene targetScene = SceneManager.GetSceneByName(MySceneManager.SceneIndex.SystemScene.ToString());
-        //    SceneManager.MoveGameObjectToScene(this.gameObject, targetScene);
-        //}
-      
+        else
+        {
+            Scene targetScene = SceneManager.GetSceneByName(MySceneManager.SceneIndex.SystemScene.ToString());
+            SceneManager.MoveGameObjectToScene(this.gameObject, targetScene);
+        }
+
     }
 
     void SceneTeamSceneCallback()

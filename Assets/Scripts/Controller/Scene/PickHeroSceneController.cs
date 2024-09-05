@@ -64,54 +64,39 @@ public class PickHeroSceneController : MySceneController
         //Add Player
         buttonStartGame.canClick = false;
 
-        AddPlayer();
+        GameManager.Instance.GetGameMode();
+        AddPickCharacterController();
 
         GetCharacterList();
     }
 
-    void AddPlayer()
+    void AddPickCharacterController()
     {
-        int numPlayer = 0;
-        switch (GameManager.Instance.currentGameMode)
+        //Spawn PickheroController
+        for (int i = 0; i < GameManager.Instance.playerManagers.Count; i++)
         {
-            case GameManager.GameMode.Coop:
-                numPlayer = 2;
-                break;
-            case GameManager.GameMode.Online:
-                numPlayer = 1;
-                break;
-        }
-
-
-        //Spawn player
-        for (int i = 0; i < numPlayer; i++)
-        {
-            //Spawn PLayerManager
-            var newPlayer = Instantiate(playerManagerPrefab);
-            newPlayer.playerID = i;
-            Scene targetScene = SceneManager.GetSceneByName(MySceneManager.SceneIndex.SystemScene.ToString());
-            SceneManager.MoveGameObjectToScene(newPlayer.gameObject, targetScene);
-            GameManager.Instance.playerManagers.Add(newPlayer);
-
-            //playerControllers.Add(newPlayer);
-
-
-            //Spawn PickheroController
             GameObject newPickHeroController = new GameObject("PickHeroController_" + i);
             newPickHeroController.transform.parent = this.transform;
             var newPickCharacterController = newPickHeroController.AddComponent<PickHeroController>();
 
             pickHeroControllers.Add(newPickCharacterController);
+
             newPickCharacterController.characterSlotPrefab = characterSlotPrefab;
-            newPickCharacterController.playerManager = newPlayer;
+            newPickCharacterController.playerManager = GameManager.Instance.playerManagers[i];
+
+           
 
             newPickCharacterController.pickHeroScene = this;
             newPickCharacterController.GetTeamList(teamContainer[i]);
 
-            Debug.Log("Add player " + newPlayer.playerID);
+            //Debug.Log("Add player " + newPlayer.playerID);
 
+            GameManager.Instance.playerManagers[i].inputController.currentInputState =
+               MyPlayerInputController.InpustState.PickCharacterState;
+
+            GameManager.Instance.playerManagers[i].inputController.pickCharacterController = 
+                newPickCharacterController;
         }
-
 
     }
 
@@ -161,8 +146,7 @@ public class PickHeroSceneController : MySceneController
     {
         //Scenes.Instance.ChangeScene(SceneName.GamePlayScene);
         foreach(PickHeroController pickHeroController in pickHeroControllers)
-        {
-           
+        {           
             pickHeroController.DestroySelf();
         }
 

@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class MyCharacterController : MonoBehaviour
 {
-    //public int playerID;
     public PlayerManager playerManager;
+    //public MyPlayerInputController inputController;
+
     //public PickHeroController pickCharacterController;
-    [SerializeField] CharacterAnimationController characterAnimationController;
-    public ParticleSystem punchVFX;
-    public ParticleSystem bloodVFX;
+    public CharacterAnimationController characterAnimationController;
+
     public bool canMove;
     [SerializeField] float moveSpeed = 1;
-    int moveInputDir;
+    //public int moveInputDir;
     float lookAtDir;
 
     public Transform target;
@@ -27,7 +27,7 @@ public class MyCharacterController : MonoBehaviour
     {
         //pickCharacterController = GetComponent<PickHeroController>();
         characterAnimationController = GetComponentInChildren<CharacterAnimationController>();
-       
+
     }
     // Start is called before the first frame update
     void Start()
@@ -49,12 +49,12 @@ public class MyCharacterController : MonoBehaviour
     void Update()
     {
 
-        MoveInput();
+        //MoveInput();
 
         //Ham nay can chi nen duoc goi khi co input .                     
         RotateCharacter();
 
-        AttackInput();
+        //AttackInput();
 
         if (attackTimer > 0)
         {
@@ -67,7 +67,7 @@ public class MyCharacterController : MonoBehaviour
         //Cai nay phai ben animationController
         if (characterAnimationController != null)
         {
-            characterAnimationController.MoveAnim(moveInputDir * lookAtDir);
+            characterAnimationController.MoveAnim(playerManager.inputController.moveInputDir * lookAtDir);
         }
     }
 
@@ -76,59 +76,70 @@ public class MyCharacterController : MonoBehaviour
 
     }
 
-    void MoveInput()
+    public void GetTarget(List<MyCharacterController> targetList)
     {
-
-        if (!canMove)
+        for (int i = 0; i < targetList.Count; i++)
         {
-            moveInputDir = 0;
-            Moving(moveInputDir);
-            return;
+            if (targetList[i] != this)
+            {
+                target = targetList[i].transform;
+            }
+
         }
-
-        if (playerManager.playerID == 0)
-        {
-            if (Input.GetKey(KeyCode.D))
-            {
-                moveInputDir = 1;
-
-            }
-            else if (Input.GetKey(KeyCode.A))
-            {
-                moveInputDir = -1;
-
-            }
-            else
-            {
-                moveInputDir = 0;
-            }
-        }
-
-        if (playerManager.playerID == 1)
-        {
-            if (Input.GetKey(KeyCode.L))
-            {
-                moveInputDir = 1;
-
-            }
-            else if (Input.GetKey(KeyCode.J))
-            {
-                moveInputDir = -1;
-
-            }
-            else
-            {
-                moveInputDir = 0;
-            }
-        }
-
-
-        Moving(moveInputDir);
-
-
     }
 
-    void Moving(int moveDir)
+    //void MoveInput()
+    //{
+
+    //    if (!canMove)
+    //    {
+    //        moveInputDir = 0;
+    //        Moving(moveInputDir);
+    //        return;
+    //    }
+
+    //    if (playerManager.playerID == 0)
+    //    {
+    //        if (Input.GetKey(KeyCode.D))
+    //        {
+    //            moveInputDir = 1;
+
+    //        }
+    //        else if (Input.GetKey(KeyCode.A))
+    //        {
+    //            moveInputDir = -1;
+
+    //        }
+    //        else
+    //        {
+    //            moveInputDir = 0;
+    //        }
+    //    }
+
+    //    if (playerManager.playerID == 1)
+    //    {
+    //        if (Input.GetKey(KeyCode.L))
+    //        {
+    //            moveInputDir = 1;
+
+    //        }
+    //        else if (Input.GetKey(KeyCode.J))
+    //        {
+    //            moveInputDir = -1;
+
+    //        }
+    //        else
+    //        {
+    //            moveInputDir = 0;
+    //        }
+    //    }
+
+
+    //    Moving(moveInputDir);
+
+    //}
+
+    public void Moving(int moveDir)
     {
         transform.position += Vector3.right * Time.deltaTime * moveSpeed * moveDir;
 
@@ -138,6 +149,7 @@ public class MyCharacterController : MonoBehaviour
     {
         if (target == null) { return; }
         var tmp = target.position.x - transform.position.x;
+
         if (tmp < 0)
         {
             lookAtDir = -1;
@@ -147,45 +159,11 @@ public class MyCharacterController : MonoBehaviour
             lookAtDir = 1;
 
         }
+
         transform.rotation = Quaternion.Euler(0, 90 * lookAtDir, 0);
 
     }
 
-    public void AttackInput()
-    {
-        if (playerManager.playerID == 0)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log("Attack");
-                canMove = false;
-                if (characterAnimationController != null)
-                {
-                    attackTimer = 1;
-                    AttackCambo();
-                    characterAnimationController.AttackAim();
-
-                }
-
-            }
-
-        }
-
-        if (playerManager.playerID == 1)
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                Debug.Log("Attack");
-                canMove = false;
-                if (characterAnimationController != null)
-                {
-                    characterAnimationController.AttackAim();
-
-                }
-
-            }
-        }
-    }
 
     float attackTimer;
     int attackCount;
@@ -213,7 +191,11 @@ public class MyCharacterController : MonoBehaviour
     public void AttackCallback()
     {
         canMove = true;
-        attackMachineController.ActiveAttackMachine();
+        if (attackMachineController != null)
+        {
+            attackMachineController.ActiveAttackMachine();
+
+        }
     }
 
     public void Jump()
@@ -225,7 +207,9 @@ public class MyCharacterController : MonoBehaviour
     {
         Debug.Log("Take " + " Damage");
         currentHp -= damage;
-        bloodVFX.Play();
+
+        //bloodVFX.Play();
+
         if (currentHp < 0)
         {
             Dead();

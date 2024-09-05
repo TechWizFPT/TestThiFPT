@@ -34,7 +34,7 @@ public class CharacterSlot : MonoBehaviour
 
     public void Seleted()
     {
-        Debug.Log("Seleted character slot");
+        //Debug.Log("Seleted character slot");
         imageBorder.gameObject.SetActive(true);
     }
 

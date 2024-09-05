@@ -61,7 +61,8 @@ public class AttackMachineController : MonoBehaviour
         isActive=true;
         cooldown = duration;
         gameObject.SetActive(isActive);
-        caster.punchVFX.Play();
+
+        //caster.punchVFX.Play();
     }
 
     bool IsInLayMask(GameObject obj,LayerMask mask)

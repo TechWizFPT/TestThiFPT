@@ -9,10 +9,21 @@ public class Sounds : Singleton<Sounds>
     protected override void Start()
     {
         base.Start();
+        CheckAudioSource();
     }
 
     public void PlaySound(AudioClip clip)
     {
+        CheckAudioSource();
         audioSource.PlayOneShot(clip);
+    }
+
+    void CheckAudioSource()
+    {
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        }
     }
 }

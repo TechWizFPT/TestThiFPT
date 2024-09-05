@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: 016e0b3d98e548e4db130ca3786658b1
+guid: 7f5d99743467b4a48acd19b224be7b62
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - audioSource: {instanceID: 0}
+  - SFX_btn_click: {fileID: 8300000, guid: 9791802b17414624daa5f744a167b287, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

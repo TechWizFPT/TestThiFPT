@@ -448,13 +448,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8479136416586336902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d27b54c9b46defe42bd11900c7972681, type: 3}
+  m_Script: {fileID: 11500000, guid: 016e0b3d98e548e4db130ca3786658b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
   characterAnimationController: {fileID: 0}
-  punchVFX: {fileID: 555477724765490938}
-  bloodVFX: {fileID: 2364945726351433796}
   canMove: 0
   moveSpeed: 1
   target: {fileID: 0}
@@ -793,6 +791,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2947390934984001416}
   m_SourcePrefab: {fileID: 100100000, guid: 0b5c77fa72877634abee4bce2af3e32d, type: 3}
+--- !u!95 &1141325318017471699 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 0b5c77fa72877634abee4bce2af3e32d, type: 3}
+  m_PrefabInstance: {fileID: 6826428981292034370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5943961150232908819 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0b5c77fa72877634abee4bce2af3e32d, type: 3}
@@ -811,7 +814,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 1141325318017471699}
+  punchVFX: {fileID: 555477724765490938}
+  bloodVFX: {fileID: 2364945726351433796}
 --- !u!4 &6428573461964820137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0b5c77fa72877634abee4bce2af3e32d, type: 3}
@@ -843,7 +848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7645799636193816976, guid: 7c46b560448c60e4184a7e4b6a861065, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.951
+      value: 1.038
       objectReference: {fileID: 0}
     - target: {fileID: 7645799636193816976, guid: 7c46b560448c60e4184a7e4b6a861065, type: 3}
       propertyPath: m_LocalPosition.z

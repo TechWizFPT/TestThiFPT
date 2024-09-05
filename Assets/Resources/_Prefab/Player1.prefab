@@ -45,4 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
-  characterDatas: []
+  inputController: {fileID: 0}
+  teamList: []
+  currentCharacterController: {fileID: 0}

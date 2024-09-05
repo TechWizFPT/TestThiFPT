@@ -39,6 +39,12 @@ public class MySceneController : MonoBehaviour
     {
         CallSystemScene();
 
+        Scene systemScene = SceneManager.GetSceneByName(MySceneManager.SceneIndex.SystemScene.ToString());
+        //while (!systemScene.isLoaded)
+        //{
+        //    Debug.Log("Dont have System Scene");
+        //}
+
         if (uiController == null)
         {
             uiController = FindAnyObjectByType<UI_Controller>();
@@ -47,6 +53,8 @@ public class MySceneController : MonoBehaviour
         {
             uiController.Init();
         }
+
+
     }
 
     void CallSystemScene()

@@ -7,8 +7,10 @@ public class CameraController : MonoBehaviour
     public GameSceneController gameSceneController;
     [SerializeField] Transform[] playerTransforms;
 
-
     public Camera myCamera;
+
+    public bool isActive;
+
     public float yOffset = 1.5f;
     public float minDistance = 3.0f;
 
@@ -17,7 +19,7 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         myCamera = FindObjectOfType<Camera>();
-        
+        gameSceneController = FindAnyObjectByType<GameSceneController>();
      
     }
     void Start()
@@ -39,14 +41,17 @@ public class CameraController : MonoBehaviour
         {
             playerTransforms[i] = gameSceneController.playerControllers[i].transform;
         }
+
+        isActive = true;
     }
     void MultiplayersCameraMovement()
     {
-        if(myCamera ==null) { myCamera = Camera.main;  }
-        if (!gameSceneController.startGame) { return; }
+        if(myCamera == null) { myCamera = Camera.main;  }
+        if (!isActive) { return; }
+
         if (playerTransforms.Length == 0)
         {
-            Debug.Log("Cant find player for myCamera movement");
+            //Debug.Log("Cant find player for myCamera movement");
             return;
         }
 
