@@ -2,26 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyCharacterController : MonoBehaviour
+public class CharacterControllerModified : MonoBehaviour
 {
     public PlayerManager playerManager;
+    [HideInInspector] public GameSceneController gameSceneController;
     //public MyPlayerInputController inputController;
 
     //public PickHeroController pickCharacterController;
     public CharacterAnimationController characterAnimationController;
-
+    
+    [Space]
     public bool canMove;
-    [SerializeField] float moveSpeed = 1;
-    //public int moveInputDir;
-    float lookAtDir;
+    [SerializeField] bool isJump;
+    [SerializeField] bool isMove;
+    [SerializeField] bool isGuard;
 
+    [Space]
+    float lookAtDir;
     public Transform target;
 
-    [SerializeField] AttackMachineController attackMachineController;
+    //Attack Hit box 
+    [Space]
+    [SerializeField] AttackMachineController normalAttackAMC;
+    [SerializeField] AttackMachineController hardAttackAMC;
 
+    //Player Stats
     [Space]
     [SerializeField] float maxHp;
     [SerializeField] float currentHp;
+    [SerializeField] float moveSpeed = 1;
+    //public int moveInputDir;
+
+
+    float attackTimer;
+    int attackCount;
+
 
     private void Awake()
     {
@@ -48,7 +63,6 @@ public class MyCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //MoveInput();
 
         //Ham nay can chi nen duoc goi khi co input .                     
@@ -76,7 +90,7 @@ public class MyCharacterController : MonoBehaviour
 
     }
 
-    public void GetTarget(List<MyCharacterController> targetList)
+    public void GetTarget(List<CharacterControllerModified> targetList)
     {
         for (int i = 0; i < targetList.Count; i++)
         {
@@ -164,9 +178,6 @@ public class MyCharacterController : MonoBehaviour
 
     }
 
-
-    float attackTimer;
-    int attackCount;
     void AttackCambo()
     {
         if (attackTimer > 0)
@@ -188,15 +199,65 @@ public class MyCharacterController : MonoBehaviour
 
     }
 
-    public void AttackCallback()
+    public void AttackNormal()
+    {
+        if(characterAnimationController == null) { return ; }
+
+        canMove = false;
+        characterAnimationController.AttackNormalAim();
+    }
+
+    public void AttackNormalCallback()
     {
         canMove = true;
-        if (attackMachineController != null)
+        if (normalAttackAMC != null)
         {
-            attackMachineController.ActiveAttackMachine();
+            normalAttackAMC.ActiveAttackMachine();
 
         }
     }
+
+    public void AttackHard()
+    {
+        if (characterAnimationController == null) { return; }
+
+        canMove = false;
+        characterAnimationController.AttackHardAim();
+    }
+
+    public void AttackHardCallback()
+    {
+        canMove = true;
+
+        if (hardAttackAMC != null)
+        {
+            hardAttackAMC.ActiveAttackMachine();
+
+        }
+    }
+
+    public void Guard(bool guardInput)
+    {
+        if (characterAnimationController == null) { return;}
+        if (guardInput)
+        {
+            if (isGuard) { return; }
+            Debug.Log("Character Guard");
+            canMove = false;
+            isGuard = true;
+            characterAnimationController.GuardAnim(isGuard);
+        }
+        else
+        {
+            canMove = true;
+            isGuard = false;
+            characterAnimationController.GuardAnim(isGuard);
+
+        }
+
+    }
+
+   
 
     public void Jump()
     {
@@ -215,10 +276,13 @@ public class MyCharacterController : MonoBehaviour
             Dead();
         }
         characterAnimationController.TakeDamageAnim();
+
+
     }
 
     void Dead()
     {
         Debug.Log("PlayerID:  " + playerManager.playerID + " Dead");
+        gameSceneController.EndFight(playerManager);
     }
 }

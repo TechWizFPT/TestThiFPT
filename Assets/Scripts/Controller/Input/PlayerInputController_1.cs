@@ -7,7 +7,7 @@ public class PlayerInputController_1 : MyPlayerInputController
     //public int moveInputDir;
     private void Awake()
     {
-        //characterController = GetComponent<MyCharacterController>();  
+        //characterController = GetComponent<CharacterControllerModified>();  
     }
     // Start is called before the first frame update
     void Start()
@@ -29,6 +29,7 @@ public class PlayerInputController_1 : MyPlayerInputController
             case InpustState.ControllCharacterState:
                 MoveInput();
                 AttackInput();
+                GuardInput();
                 break;
         }
         
@@ -122,20 +123,44 @@ public class PlayerInputController_1 : MyPlayerInputController
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Player 1 Attack");
-            characterController.canMove = false;
-
-            if (characterController.characterAnimationController != null)
+            //Debug.Log("Player 1 Attack");
+            if (characterController != null)
             {
-                characterController.characterAnimationController.AttackAim();
+                //characterController.canMove = false;
+                characterController.AttackNormal();
+
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Debug.Log("Player 1 AttackHard input");
+            if (characterController != null)
+            {
+                //characterController.canMove = false;
+                characterController.AttackHard();
 
             }
         }
     }
 
-    protected override void DefenseInput()
+    protected override void GuardInput()
     {
-        base.DefenseInput();
+        base.GuardInput();
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            characterController.Guard(true);
+            Debug.Log("Guard Input");
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            Debug.Log("No Guard Input");
+
+            characterController.Guard(false);
+        }
+
+        //if(Input.GetKeyUp(KeyCode.LeftShift))
     }
 
     protected override void JumpInput()

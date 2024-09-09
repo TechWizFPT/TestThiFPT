@@ -20,11 +20,12 @@ public class CameraController : MonoBehaviour
     {
         myCamera = FindObjectOfType<Camera>();
         gameSceneController = FindAnyObjectByType<GameSceneController>();
-     
+        Debug.Log("CameraController awake");
+
     }
     void Start()
     {
-
+        Debug.Log("CameraController ");
     }
 
     // Update is called once per frame
@@ -35,7 +36,7 @@ public class CameraController : MonoBehaviour
 
     public void Init()
     {
-        //MyCharacterController[] allPlayers = GameObject.FindObjectsOfType<MyCharacterController>();
+        //CharacterControllerModified[] allPlayers = GameObject.FindObjectsOfType<CharacterControllerModified>();
         playerTransforms = new Transform[gameSceneController.playerControllers.Count];
         for (int i = 0; i < gameSceneController.playerControllers.Count; i++)
         {

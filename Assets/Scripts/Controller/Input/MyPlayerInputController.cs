@@ -5,7 +5,7 @@ using UnityEngine;
 public class MyPlayerInputController : MonoBehaviour
 {
     public PickHeroController pickCharacterController;
-    public MyCharacterController characterController;
+    public CharacterControllerModified characterController;
 
     public int moveInputDir;
     public enum InpustState{
@@ -61,7 +61,7 @@ public class MyPlayerInputController : MonoBehaviour
 
     }
 
-    protected virtual void DefenseInput()
+    protected virtual void GuardInput()
     {
 
     }

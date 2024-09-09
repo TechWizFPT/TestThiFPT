@@ -10,7 +10,7 @@ public class LoadingManager : MySceneController
     [SerializeField] Button StartGameCoopMode;
     [SerializeField] Button StartGameOnilineMode;
 
-    private void Awake()
+    protected override void Awake()
     {
         StartGameCoopMode.onClick.AddListener(CoopMode);
         StartGameOnilineMode.onClick.AddListener(OnlineMode);

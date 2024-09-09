@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
     public MyPlayerInputController inputController;
 
     public List<CharacterData> teamList;
-    public MyCharacterController currentCharacterController;
+    public CharacterControllerModified currentCharacterController;
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class PlayerManager : MonoBehaviour
         
     }
 
-    public void AddCharacterToPlayerManager(MyCharacterController characterController)
+    public void AddCharacterToPlayerManager(CharacterControllerModified characterController)
     {
         currentCharacterController = characterController;
         currentCharacterController.playerManager = this;
@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviour
         AddCharacterToInputController(characterController);
     }
 
-    public void AddCharacterToInputController(MyCharacterController characterController)
+    public void AddCharacterToInputController(CharacterControllerModified characterController)
     {
         //if(inputController == null)
         //{

@@ -10,7 +10,7 @@ public class MySceneController : MonoBehaviour
     [SerializeField] Camera mainCamera;
     
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (SceneManager.GetSceneByName("SystemScene").isLoaded == true)
         {
@@ -20,8 +20,13 @@ public class MySceneController : MonoBehaviour
         {
             SceneManager.LoadSceneAsync((int)SceneIndex.SystemScene, LoadSceneMode.Additive);
             Debug.Log("Load SystemScene");
-            //Init();
+ 
         }
+
+        //Debug.Log("DisACtive object");
+        //gameObject.SetActive(false);
+
+        //StartCoroutine(CheckIsActiveScene());
     }
     // Start is called before the first frame update
     protected virtual void Start()
@@ -38,12 +43,6 @@ public class MySceneController : MonoBehaviour
     void Init()
     {
         CallSystemScene();
-
-        Scene systemScene = SceneManager.GetSceneByName(MySceneManager.SceneIndex.SystemScene.ToString());
-        //while (!systemScene.isLoaded)
-        //{
-        //    Debug.Log("Dont have System Scene");
-        //}
 
         if (uiController == null)
         {
@@ -65,7 +64,7 @@ public class MySceneController : MonoBehaviour
             if (SceneManager.GetSceneAt(i).name == MySceneManager.SceneIndex.SystemScene.ToString())
             {
                 hasSystemScene = true;
-                Debug.Log("Has System Scene");
+                Debug.Log("CallSystemScene Has SystemScene");
                 break;
             }
         }
@@ -76,6 +75,14 @@ public class MySceneController : MonoBehaviour
 
             MySceneManager.Instance.LoadSystemSceneAsync(SceneTeamSceneCallback);
         }
+
+
+        //Scene systemScene = SceneManager.GetSceneByName(MySceneManager.SceneIndex.SystemScene.ToString());
+        //while (!systemScene.isLoaded)
+        //{
+        //    Debug.Log("Dont have System Scene");
+        //}
+
     }
 
     void SceneTeamSceneCallback()

@@ -81,8 +81,8 @@ public class Singleton<T> : MonoBehaviour where T : Component
 
     void SceneTeamSceneCallback()
     {
-        Scene targetScene = SceneManager.GetSceneByName(MySceneManager.SceneIndex.SystemScene.ToString());
-        SceneManager.MoveGameObjectToScene(this.gameObject, targetScene);
+        //Scene targetScene = SceneManager.GetSceneByName(MySceneManager.SceneIndex.SystemScene.ToString());
+        //SceneManager.MoveGameObjectToScene(this.gameObject, targetScene);
         Debug.Log("Singeton listner");
     }
 

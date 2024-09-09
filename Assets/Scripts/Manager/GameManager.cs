@@ -64,6 +64,7 @@ public class GameManager : Singleton<GameManager>
 
         //Scene activeScene = SceneManager.GetActiveScene();
         //SceneManager.SetActiveScene(SceneManager.GetSceneByName("SystemScene"));
+
         for (int i = 0; i < numPlayer; i++)
         {
             AddPlayer();

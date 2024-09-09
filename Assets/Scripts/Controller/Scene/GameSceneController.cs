@@ -8,14 +8,17 @@ using UnityEngine.SceneManagement;
 public class GameSceneController : MySceneController
 {
     [SerializeField] PlayerManager playerManagerPrefab;
-    [SerializeField] MyCharacterController playerControllerPrefab;
+    [SerializeField] CharacterControllerModified playerControllerPrefab;
 
     [Space]
-    public List<MyCharacterController> playerControllers = new List<MyCharacterController>();
+    public List<CharacterControllerModified> playerControllers = new List<CharacterControllerModified>();
 
     [SerializeField] Transform[] spawnLocation;
 
     [SerializeField] CameraController cameraController;
+
+    [SerializeField] int player1PointCount;
+    [SerializeField] int player2PointCount;
 
     public enum GameState
     {
@@ -27,12 +30,19 @@ public class GameSceneController : MySceneController
 
     public GameState currentGameState;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         //Find CameraController
-        cameraController = FindAnyObjectByType<CameraController>();
+        Debug.Log("Find camera Controller");
     }
 
+
+    private void OnEnable()
+    {
+        cameraController = FindObjectOfType<CameraController>();
+
+    }
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -54,8 +64,7 @@ public class GameSceneController : MySceneController
 
     }
     public void UpdateGameState(GameState newState)
-    {
-        
+    {        
         switch (newState)
         {
             case GameState.StartScene:
@@ -84,6 +93,8 @@ public class GameSceneController : MySceneController
            
                 break;
             case GameState.EndFight:
+                Debug.Log("End Fight ");
+
                 break;
         }
 
@@ -93,13 +104,15 @@ public class GameSceneController : MySceneController
     }
     void SpawnCharacter()
     {
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(MySceneManager.SceneIndex.GamePlayScene.ToString()));
-        Debug.Log("Active scene is aaaaaaa" + SceneManager.GetActiveScene().name);
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByName(MySceneManager.SceneIndex.GamePlayScene.ToString()));
+        //Debug.Log("Active scene is aaaaaaa" + SceneManager.GetActiveScene().name);
 
         for (int i = 0; i < GameManager.Instance.playerManagers.Count; i++)
         {
             //Quaternion rotation = Quaternion.Euler(0, 90, 0);
             var tmp = Instantiate(playerControllerPrefab, spawnLocation[i].position, Quaternion.identity);
+
+            tmp.gameSceneController = this; 
 
             playerControllers.Add(tmp);
 
@@ -111,9 +124,33 @@ public class GameSceneController : MySceneController
             Debug.Log("Spawn Character " + tmp.playerManager.playerID);
         }
 
+    }
 
-        
-        //playerControllers[0].target = playerControllers[1].transform;
-        //playerControllers[1].target = playerControllers[0].transform;
+    public void EndFight(PlayerManager playerLose)
+    {
+        if(currentGameState != GameState.EndFight)
+        {
+            UpdateGameState(GameState.EndFight);
+            UpdatePoint(playerLose);
+
+            Debug.Log("Player " + playerLose.name + " lose!");
+        }
+    }
+
+    void UpdatePoint(PlayerManager playerLose)
+    {
+        if(playerLose.playerID == 0)
+        {
+            player2PointCount++;
+        }
+        else
+        {
+            player1PointCount++;
+        }
+
+        if((player2PointCount >1) || (player1PointCount > 1))
+        {
+            Debug.Log("Game End GO NExt Game");
+        }
     }
 }

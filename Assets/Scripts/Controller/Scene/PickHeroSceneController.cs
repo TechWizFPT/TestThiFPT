@@ -33,15 +33,15 @@ public class PickHeroSceneController : MySceneController
     //Test
     [SerializeField] ButtonCustom buttonStartGame;
 
-    private void Awake()
+    protected override void Awake()
     {
-       
+       base.Awake();
     }
     protected override void Start()
     {
         base.Start();
+        Debug.Log("Hello Pick character Scene");
         Init();
-  
     }
 
     // Update is called once per frame

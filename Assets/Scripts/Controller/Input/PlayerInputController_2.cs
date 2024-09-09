@@ -119,19 +119,38 @@ public class PlayerInputController_2 : MyPlayerInputController
         if (Input.GetKeyDown(KeyCode.Return))
         {
             Debug.Log("Player 2 Attack");
-            characterController.canMove = false;
-            if (characterController.characterAnimationController != null)
+            //characterController.canMove = false;
+            //if (characterController.characterAnimationController != null)
+            //{
+            //    characterController.characterAnimationController.AttackNormalAim();
+
+            //}
+
+            if (characterController != null)
             {
-                characterController.characterAnimationController.AttackAim();
+                //characterController.canMove = false;
+                characterController.AttackNormal();
 
             }
 
         }
+
+
+        if (Input.GetKeyDown(KeyCode.RightControl))
+        {
+            Debug.Log("Player 2 AttackHard input");
+            if (characterController != null)
+            {
+                //characterController.canMove = false;
+                characterController.AttackHard();
+
+            }
+        }
     }
 
-    protected override void DefenseInput()
+    protected override void GuardInput()
     {
-        base.DefenseInput();
+        base.GuardInput();
     }
 
 }

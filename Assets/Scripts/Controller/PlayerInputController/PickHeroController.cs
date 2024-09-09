@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(MyCharacterController))]
+//[RequireComponent(typeof(CharacterControllerModified))]
 public class PickHeroController : MonoBehaviour
 {
     public PlayerManager playerManager;
@@ -28,7 +28,7 @@ public class PickHeroController : MonoBehaviour
 
     private void Awake()
     {
-        //playerManager = GetComponent<MyCharacterController>();
+        //playerManager = GetComponent<CharacterControllerModified>();
         //playerManager.pickCharacterController = this;
     }
     // Start is called before the first frame update

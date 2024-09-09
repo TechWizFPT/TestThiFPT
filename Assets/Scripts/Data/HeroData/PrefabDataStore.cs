@@ -7,6 +7,6 @@ using UnityEngine;
 public class PrefabDataStore : ScriptableObject
 {
     public PlayerManager playerManagerPrefab;
-    public MyCharacterController characterControllerPrefab;
+    public CharacterControllerModified characterControllerPrefab;
 
 }
